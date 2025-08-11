@@ -73,6 +73,51 @@ function drawScore(){
     ctx.filltext(`Score :${score}` , ground.width -100 ,30);
 }
 //Draw bricks
-function DrawBricks(){
-    
+function drawBricks(){
+    bricks.forEach(column => {
+        column.forEach(brick =>{
+            ctx.beginPath();
+            ctx.rect(brick.x,brick.y, brick.w,brick.h);
+            ctx.fillStyle =brick.visible ? 'lightgreen': 'transparent';
+            ctx.fill();
+            ctx.closePath();
+        })
+    })
+}
+//move paddle
+function movePaddle(){
+    paddle.x+= paddle.dx
+    //wall detection
+    if(paddle.x + paddle.w > ground.width){
+        paddle.x = ground.width - paddle.w ;
+    }
+
+    if(paddle.x<0){
+        paddle.x=0;
+    }
+}
+//move ball on canvas
+function moveBall(){
+    ball.x+= ball .dx;
+    ball.y +=ball.dy;
+
+    //wall detection
+    if(ball.x + ball.size > ground.width || ball.x - ball.size < 0){
+        ball.dx *= -1 ;//ball .dx - ball.dx -1
+    }
+    //wall collision top and buttom
+    if(ball.y + ball.size > ground.height || ball.y - ball.size<0){
+        ball.dy *= -1;
+    }
+//    paddle collision
+    if(
+        ball.x - ball.size > paddle.x &&
+        ball.x + ball.size <paddle.x+ paddle.w &&
+        ball.y + ball.size > paddle.y
+    ){
+        ball.dy = - ball.speed;
+    }
+    //brick collision 
+    ///////////////////////////////////////////////
+    bricks.forEach()
 }
