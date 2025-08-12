@@ -35,7 +35,7 @@ const paddle ={
 const brickInfo ={
     w: 70,
     h: 20,
-    padding : 10,
+    padding : 5,
     offsetX :45,
     offsetY : 60,
     visible: true
@@ -70,7 +70,8 @@ function drawPaddle(){
 //draw Score on canvas
 function drawScore(){
     ctx.font = '20px Arial';
-    ctx.filltext(`Score :${score}` , groundWidth -100 ,30);
+    ctx.fillStyle = 'white';  
+    ctx.fillText(`Score :${score}` , groundWidth -100 ,30);
 }
 //Draw bricks
 function drawBricks(){
@@ -78,7 +79,7 @@ function drawBricks(){
         column.forEach(brick =>{
             ctx.beginPath();
             ctx.rect(brick.x,brick.y, brick.w,brick.h);
-            ctx.fillStyle =brick.visible ? 'lightgreen': 'transparent';
+            ctx.fillStyle = brick.visible ? 'lightgreen': 'transparent';
             ctx.fill();
             ctx.closePath();
         })
@@ -143,7 +144,7 @@ function moveBall(){
 //increase Score
 function increaseScore(){
     score++;
-    if(score % (brickRowCount * brickRowCount)=== 0){
+    if(score % (brickRowCount * brickColumnCount)=== 0){
         showAllbricks();
     }
 }
@@ -155,7 +156,7 @@ function showAllbricks(){
 }
 //draw every thing
 function draw(){
-    ctx.clear(0,0,groundWidth,groundHeight);
+    ctx.clearRect(0,0,groundWidth,groundHeight);
 
     drawBall();
     drawPaddle();
@@ -173,7 +174,7 @@ function Update(){
 Update();
 //keydown event
 
-function keydown(e){
+function Keydown(e){
     if(e.key === 'Right' || e.key === 'ArrowRight'){
         paddle.dx = paddle.speed ;
     }else if(e.key === 'Left' || e.key ==='ArrowLeft'){
@@ -181,4 +182,17 @@ function keydown(e){
     }
 
 }
+function Keyup(e){
+    if(
+        e.key === 'Right' ||
+        e.key === 'ArrowRight' ||
+         e.key === 'Left' ||
+          e.key === 'ArrowLeft' 
+    ){
+        paddle.dx = 0;
+    }
+}
+//keyboard event handlers
+document.addEventListener('keydown', Keydown);
+document.addEventListener('keyup' , Keyup)
 
