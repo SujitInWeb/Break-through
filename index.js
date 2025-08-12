@@ -14,8 +14,8 @@ const brickColumnCount= 5;
 
 //create ball
 const ball ={
-    x: ground.width /2,
-    y : ground.height /2,
+    x: groundWidth /2,
+    y : groundHeight /2,
     size:10,
     speed : 4,
     dx :4,
@@ -24,8 +24,8 @@ const ball ={
 
 //create paddle
 const paddle ={
-    x:ground.width / 2 -40,
-    y : ground.height - 20,
+    x:groundWidth / 2 -40,
+    y :groundHeight - 20,
     w :80,
     h: 10,
     speed :8,
@@ -70,7 +70,7 @@ function drawPaddle(){
 //draw Score on canvas
 function drawScore(){
     ctx.font = '20px Arial';
-    ctx.filltext(`Score :${score}` , ground.width -100 ,30);
+    ctx.filltext(`Score :${score}` , groundWidth -100 ,30);
 }
 //Draw bricks
 function drawBricks(){
@@ -88,8 +88,8 @@ function drawBricks(){
 function movePaddle(){
     paddle.x+= paddle.dx
     //wall detection
-    if(paddle.x + paddle.w > ground.width){
-        paddle.x = ground.width - paddle.w ;
+    if(paddle.x + paddle.w > groundWidth){
+        paddle.x = groundWidth - paddle.w ;
     }
 
     if(paddle.x<0){
@@ -102,11 +102,11 @@ function moveBall(){
     ball.y +=ball.dy;
 
     //wall detection
-    if(ball.x + ball.size > ground.width || ball.x - ball.size < 0){
+    if(ball.x + ball.size > groundWidth || ball.x - ball.size < 0){
         ball.dx *= -1 ;//ball .dx - ball.dx -1
     }
     //wall collision top and buttom
-    if(ball.y + ball.size > ground.height || ball.y - ball.size<0){
+    if(ball.y + ball.size > groundHeight || ball.y - ball.size<0){
         ball.dy *= -1;
     }
 //    paddle collision
@@ -118,6 +118,67 @@ function moveBall(){
         ball.dy = - ball.speed;
     }
     //brick collision 
-    ///////////////////////////////////////////////
-    bricks.forEach()
+    bricks.forEach(column => {
+        column.forEach(brick =>{
+            if(brick.visible){
+                if(
+                    ball.x - ball.size > brick.x &&
+                    ball.x+ ball.size < brick.x +brick.w &&
+                    ball.y + ball.size > brick.y &&
+                    ball.y- ball.size < brick.y +brick.h
+                ){
+                    ball.dy *= -1;
+                    brick.visible= false;
+                    increaseScore();
+                }
+            }
+        });
+    });
+    //hit bottom wall
+    if(ball.y+ball.size > groundHeight){
+        showAllbricks();
+        score= 0;
+    }
 }
+//increase Score
+function increaseScore(){
+    score++;
+    if(score % (brickRowCount * brickRowCount)=== 0){
+        showAllbricks();
+    }
+}
+//make all bricks appear 
+function showAllbricks(){
+    bricks.forEach(column =>{
+        column.forEach(brick => (brick.visible = true));
+    })
+}
+//draw every thing
+function draw(){
+    ctx.clear(0,0,groundWidth,groundHeight);
+
+    drawBall();
+    drawPaddle();
+    drawScore();
+    drawBricks();
+}
+function Update(){
+    movePaddle();
+    moveBall();
+
+    draw();
+
+    requestAnimationFrame(Update);
+}
+Update();
+//keydown event
+
+function keydown(e){
+    if(e.key === 'Right' || e.key === 'ArrowRight'){
+        paddle.dx = paddle.speed ;
+    }else if(e.key === 'Left' || e.key ==='ArrowLeft'){
+        paddle.dx = -paddle.speed ;
+    }
+
+}
+
