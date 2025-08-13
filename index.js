@@ -196,3 +196,16 @@ function Keyup(e){
 document.addEventListener('keydown', Keydown);
 document.addEventListener('keyup' , Keyup)
 
+function calculateBrickLayout(){
+ 
+    const topMargin = groundHeight *0.1;
+    const sideMargin = groundWidth *0.05;
+    const bottomMargin = groundHeight *0.4;
+
+    const availableWidth = groundWidth - (sideMargin *2);
+    const availableHeight = groundHeight - topMargin - bottomMargin;
+//////////////////////////////////////////////////////////////////////
+    // brickLayout ={
+    //     w: (availableWidth - totalPaddingWidth) / 
+    // }
+}
