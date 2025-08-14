@@ -104,6 +104,16 @@ function resetGameElement(){
 }
 createBricks();
 resetGameElement();
+function drawBall(){
+    ctx.beginPath();
+    ctx.arc(ball.x , ball.y,ball.size,0 ,Math.PI *2);
+    ctx.fillStyle ='red'
+    ctx.fill();
+    ctx.strokeStyle='red';
+    ctx.lineWidth = 2;
+    ctx.stroke();
+    ctx.closePath();
+}
 
 function drawPaddle(){
     ctx.beginPath();
@@ -127,3 +137,113 @@ function drawScore(){
     ctx.fillStyle ='#888';
     ctx.fillText(`${groundWidth} x ${groundHeight}` , 20 , fontSize + 30);
 }
+
+function drawBricks(){
+    bricks.forEach(column =>{
+        column.forEach(brick =>{
+            if(brick.visible){
+                ctx.beginPath();
+                ctx.roundRect(brick.x,brick.y,brick.w ,brick.h,3);
+                ctx.fillStyle = brick.color;
+                ctx.fill();
+                ctx.strokeStyle = 'light green';
+                ctx.lineWidth = 1;
+                ctx.stroke();
+                ctx.closePath();
+            }
+        });
+    });
+}
+
+function movePaddle(){
+    paddle.x += paddle.dx ;
+
+    if( paddle.x + paddle.w > groundWidth){
+        paddle.x = groundWidth - paddle.w;
+    }
+    if(paddle.x < 0 ){
+        paddle.x = 0;
+    }
+}
+
+function moveBall(){
+    ball.x += ball.dx;
+    ball.y += ball.dy;
+
+    if(ball.x +ball.size >groundWidth || ball.x - ball.size <0){
+        ball.dx *=-1;
+    }
+    if (ball.y - ball.size < 0){
+        ball.dy *= -1;
+    }
+    
+    if(
+        ball.x +ball.size >paddle.x && 
+        ball.x - ball.size <paddle.x +paddle.w && 
+        ball.y + ball.size > paddle.y &&
+        ball.y - ball.size < paddle.y +paddle.h
+    ){
+        const hitpos = (ball.x - paddle.x) / paddle.w;
+        const angle = (hitpos - 0.5) * Math.PI / 3;
+        const speed = ball.speed;
+        ball.dx = Math.sin(angle)* speed;
+        ball.dy = -Math.abs(Math.cos(angle) * speed);
+    }
+    bricks.forEach(column =>{
+        column.forEach(brick =>{
+            if(brick.visible){
+                if(
+                    ball.x -ball.size <brick.x + brick.w &&
+                    ball.x + ball.size > brick.x &&
+                    ball.y - ball.size < brick.y +brick.h &&
+                    ball.y + ball.size >brick.y
+                ){
+                    ball.dy *= -1;
+                    brick.visible = false;
+                    increaseScore();
+                }
+            }
+        });
+    });
+    if (ball.y +ball.size >groundHeight){
+        resetGame();
+    }
+}
+function increaseScore(){
+    score++;
+    let allDestroyed = true;
+    bricks.forEach(column => {
+        column.forEach(brick =>{
+            if(brick.visible) allDestroyed = false;
+        });
+    });
+    if(allDestroyed){
+        createBricks();
+    }
+}
+
+function resetGame(){
+    score = 0;
+    createBricks();
+    resetGameElement();
+}
+
+function draw(){
+    ctx.clearRect(0,0, groundWidth,groundHeight);
+    if(gameRunning){
+        drawBall();
+        drawPaddle();
+        drawScore();
+        drawBricks();
+    }
+}
+
+function update(){
+    if (gameRunning){
+        movePaddle();
+        moveBall();
+    }
+    draw();
+    requestAnimationFrame(update);
+}
+update();
