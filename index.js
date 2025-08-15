@@ -1,6 +1,8 @@
+//taking constants in order to manipulate the canvas
+
 const ground = document.querySelector('.ground');
 const ctx = ground.getContext('2d');
-
+//working on canvas responsiveness in each width of the different screens 
 function setupCanvas(){
     const container  = document.querySelector('.ground-container');
     const rect = container.getBoundingClientRect();
