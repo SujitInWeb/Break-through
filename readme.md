@@ -63,4 +63,4 @@ This project is licensed under the **MIT License** — feel free to use, modify,
 ---
 
 ## 👨‍💻 Author
-**Your Name** — _Built with ❤️ using HTML5 Canvas_
+**Sujit** — _Built with ❤️ using HTML5 Canvas_
