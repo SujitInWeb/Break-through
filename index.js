@@ -98,8 +98,8 @@ function resetGameElement(){
     paddle.w = groundWidth * 0.15;
     paddle.h = groundHeight * 0.02;
     paddle.x = groundWidth / 2 - paddle.w /2 ;
-    paddle.y = groundHeight - paddle.h - (groundHeight *0.5);
-    paddle.speed = ground * 0.012 ;
+    paddle.y = groundHeight - paddle.h - (groundHeight *0.05);
+    paddle.speed = groundWidth * 0.012 ;
     paddle.dx = 0;
 }
 createBricks();
@@ -117,7 +117,7 @@ function drawBall(){
 
 function drawPaddle(){
     ctx.beginPath();
-    ctx.roundRect(paddle.x ,paddle.y , paddle.w , paddle.h ,5);
+    ctx.rect(paddle.x ,paddle.y , paddle.w , paddle.h ,5);
     ctx.fillStyle = 'lightgreen';
     ctx.fill();
     ctx.strokeStyle= 'lightgreen';
@@ -132,7 +132,7 @@ function drawScore(){
     ctx.fillStyle ='white';
     ctx.textAlign ='left';
     ctx.fillText(`Score : ${score}`,20,fontSize +10);
-
+    ground.style.padding ='20px';
     ctx.font = `${fontSize *0.6}px Arial`;
     ctx.fillStyle ='#888';
     ctx.fillText(`${groundWidth} x ${groundHeight}` , 20 , fontSize + 30);
@@ -143,10 +143,10 @@ function drawBricks(){
         column.forEach(brick =>{
             if(brick.visible){
                 ctx.beginPath();
-                ctx.roundRect(brick.x,brick.y,brick.w ,brick.h,3);
+                ctx.rect(brick.x,brick.y,brick.w ,brick.h,3);
                 ctx.fillStyle = brick.color;
                 ctx.fill();
-                ctx.strokeStyle = 'light green';
+                ctx.strokeStyle = 'lightgreen';
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 ctx.closePath();
@@ -246,4 +246,29 @@ function update(){
     draw();
     requestAnimationFrame(update);
 }
+
+function KeyDown(e){
+    if(e.key === 'ArrowRight' || e.key === 'Right' || e.key === 'd' || e.key === 'D'){
+        paddle.dx = paddle.speed;
+    } else if (e.key === 'ArrowLeft' || e.key === 'Left' || e.key === 'a'|| e.key ==='A'){
+        paddle.dx =-paddle.speed;
+    }
+    if(e.key === ' '){
+        e.preventDefault();
+        gameRunning = !gameRunning;
+    }
+}
+
+function KeyUp(e){
+    if (
+        e.key ==='ArrowRight' || e.key ==='Right' || e.key === 'd'|| e.key === 'D' ||
+        e.key === 'ArrowLeft' || e.key === 'Left' || e.key === 'a' || e.key === 'A'
+    ){
+        paddle.dx =0;
+    }
+}
+
+document.addEventListener('keydown' ,KeyDown);
+document.addEventListener('keyup' , KeyUp);
+
 update();
