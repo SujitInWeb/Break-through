@@ -1,7 +1,7 @@
-# 🧱 Breakout Game
+# 🧱 Break-through !
 
 <div align="center">
-  <img src="https://img.shields.io/badge/Game-Breakout-brightgreen" alt="Breakout Game">
+  <img src="https://img.shields.io/badge/Game-BreakThrough-brightgreen" alt="Breakout Game">
   <img src="https://img.shields.io/badge/Language-JavaScript-yellow" alt="JavaScript">
   <img src="https://img.shields.io/badge/Canvas-HTML5-orange" alt="HTML5 Canvas">
   <img src="https://img.shields.io/badge/License-MIT-blue" alt="MIT License">
