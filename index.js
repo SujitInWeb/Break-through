@@ -32,6 +32,7 @@ window.addEventListener('resize' , () => {
 let score = 0;
 let gameRunning = true;
 
+//keeping the valus of brick column and row same cuz the no of bricks must remain constant
 const brickRowCount = 8;
 const brickColumnCount = 5;
 
@@ -61,6 +62,7 @@ function calculateBrickLayout(){
 }
 
 calculateBrickLayout();
+//setting up the objects as 0 as they change acc to canvas size
 const ball ={
     x:0 ,y : 0, size:0,speed:0,dx:0,dy:0
 };
@@ -108,6 +110,7 @@ createBricks();
 resetGameElement();
 function drawBall(){
     ctx.beginPath();
+    //ctx arc is used to draw a circle or semi circle just nedd to add at last math.pi*2 for circle
     ctx.arc(ball.x , ball.y,ball.size,0 ,Math.PI *2);
     ctx.fillStyle ='red'
     ctx.fill();
@@ -137,7 +140,7 @@ function drawScore(){
     ground.style.padding ='20px';
     ctx.font = `${fontSize *0.6}px Arial`;
     ctx.fillStyle ='#888';
-    ctx.fillText(`${groundWidth} x ${groundHeight}` , 20 , fontSize + 30);
+    ctx.fillText(`${groundWidth} x ${groundHeight}` , 20 , fontSize + 30)
 }
 
 function drawBricks(){
@@ -159,10 +162,11 @@ function drawBricks(){
 
 function movePaddle(){
     paddle.x += paddle.dx ;
-
+    //keeps the paddle on the canvas of the right wall so it doesnt vanishes
     if( paddle.x + paddle.w > groundWidth){
         paddle.x = groundWidth - paddle.w;
     }
+    //keeps the paddle on the canvas of the left wall so it doesnt vanishes
     if(paddle.x < 0 ){
         paddle.x = 0;
     }
@@ -185,6 +189,7 @@ function moveBall(){
         ball.y + ball.size > paddle.y &&
         ball.y - ball.size < paddle.y +paddle.h
     ){
+        //made some bouncing angle when ball hits on the paddle
         const hitpos = (ball.x - paddle.x) / paddle.w;
         const angle = (hitpos - 0.5) * Math.PI / 3;
         const speed = ball.speed;
@@ -207,6 +212,7 @@ function moveBall(){
             }
         });
     });
+    //checks if the ball hits the ground insted of paddle
     if (ball.y +ball.size >groundHeight){
         resetGame();
     }
@@ -219,6 +225,7 @@ function increaseScore(){
             if(brick.visible) allDestroyed = false;
         });
     });
+    //jumps into next level so that the game continues
     if(allDestroyed){
         createBricks();
     }
@@ -230,7 +237,9 @@ function resetGame(){
     resetGameElement();
 }
 
+
 function draw(){
+    //clears the canvas and draws the objects using function call
     ctx.clearRect(0,0, groundWidth,groundHeight);
     if(gameRunning){
         drawBall();
@@ -241,6 +250,7 @@ function draw(){
 }
 
 function update(){
+    //makes a slide frame so it looks like the objects are moving
     if (gameRunning){
         movePaddle();
         moveBall();
@@ -249,6 +259,7 @@ function update(){
     requestAnimationFrame(update);
 }
 
+//key funtions wich control the paddle so that the user could control the paddle and move it as he wants
 function KeyDown(e){
     if(e.key === 'ArrowRight' || e.key === 'Right' || e.key === 'd' || e.key === 'D'){
         paddle.dx = paddle.speed;
@@ -269,7 +280,7 @@ function KeyUp(e){
         paddle.dx =0;
     }
 }
-
+//keeps a record wheather a key is pressed in order to move the paddle and calls the function accordingly
 document.addEventListener('keydown' ,KeyDown);
 document.addEventListener('keyup' , KeyUp);
 
