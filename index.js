@@ -33,8 +33,8 @@ const paddle ={
 };
 //create brick
 const brickInfo ={
-    w: 70,
-    h: 20,
+    w: 0,
+    h: 70,
     padding : 5,
     offsetX :45,
     offsetY : 60,
