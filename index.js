@@ -39,7 +39,7 @@ const brickColumnCount = 5;
 let brickLayout = {};
 
 function calculateBrickLayout(){
-    const topMargin = groundHeight * 0.1 ;
+    const topMargin = groundHeight * 0.13 ;
     const sideMargin = groundWidth * 0.05 ;
     const bottomMargin = groundHeight *0.4;
 
@@ -83,9 +83,9 @@ function createBricks(){
                 x,
                 y,
                 w : brickLayout.w,
-                h :brickLayout.h,
+                h :brickLayout.h-10,
                 visible :true,
-                color : 'lightgreen'
+                color : '#F0F6FC'
             };
         }
     }
@@ -112,9 +112,9 @@ function drawBall(){
     ctx.beginPath();
     //ctx arc is used to draw a circle or semi circle just nedd to add at last math.pi*2 for circle
     ctx.arc(ball.x , ball.y,ball.size,0 ,Math.PI *2);
-    ctx.fillStyle ='red'
+    ctx.fillStyle ='#F0F6FC'
     ctx.fill();
-    ctx.strokeStyle='red';
+    ctx.strokeStyle='##3D444D';
     ctx.lineWidth = 2;
     ctx.stroke();
     ctx.closePath();
@@ -123,9 +123,9 @@ function drawBall(){
 function drawPaddle(){
     ctx.beginPath();
     ctx.rect(paddle.x ,paddle.y , paddle.w , paddle.h ,5);
-    ctx.fillStyle = 'lightgreen';
+    ctx.fillStyle = '#F0F6FC';
     ctx.fill();
-    ctx.strokeStyle= 'lightgreen';
+    ctx.strokeStyle= '#3D444D';
     ctx.lineWidth= 2;
     ctx.stroke();
     ctx.closePath();
@@ -151,7 +151,7 @@ function drawBricks(){
                 ctx.rect(brick.x,brick.y,brick.w ,brick.h,3);
                 ctx.fillStyle = brick.color;
                 ctx.fill();
-                ctx.strokeStyle = 'lightgreen';
+                ctx.strokeStyle = '#3D444D';
                 ctx.lineWidth = 1;
                 ctx.stroke();
                 ctx.closePath();
