@@ -271,7 +271,7 @@ function KeyDown(e){
         gameRunning = !gameRunning;
     }
 }
-
+//function for movement of the arrow key to move the paddle
 function KeyUp(e){
     if (
         e.key ==='ArrowRight' || e.key ==='Right' || e.key === 'd'|| e.key === 'D' ||
