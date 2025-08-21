@@ -256,6 +256,7 @@ function update(){
         moveBall();
     }
     draw();
+    //requesting an animation frame to constantly update the screen
     requestAnimationFrame(update);
 }
 
